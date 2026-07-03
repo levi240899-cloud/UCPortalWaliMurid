@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#4285F4">
-    <title>Aplikasi Wali Murid SITD</title>
+    <title>Portal SITD</title>
     
-    <!-- Hubungkan ke Manifest lokal GitHub -->
+    <!-- Memanggil manifest lokal di GitHub -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="Portalwalimuridicon.png">
     
@@ -18,30 +18,16 @@
   <body>
     <h2>Aplikasi PWA Google Apps Script (via GitHub)</h2>
     <p>Sekarang PWA aktif di GitHub Pages tanpa error 404!</p>
-    <button class="btn" onclick="tesKoneksi()">Cek Koneksi Ke Google Sheets</button>
+    <button class="btn">Halo Dunia</button>
 
     <script>
-      // 1. Daftarkan Service Worker lokal dari GitHub
+      // Mendaftarkan Service Worker lokal (sw.js)
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('sw.js')
             .then(reg => console.log('PWA Aktif di GitHub Pages!', reg.scope))
             .catch(err => console.error('Gagal daftar SW:', err));
         });
-      }
-
-      // 2. Tembak Google Apps Script menggunakan Fetch API
-      const URL_GAS_API = "https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec";
-
-      function tesKoneksi() {
-        // Contoh melakukan Ambil Riwayat Transaksi via API
-        fetch(`${URL_GAS_API}?action=ambilRiwayat&nis=12345`)
-          .then(res => res.json())
-          .then(data => {
-            console.log("Data dari Google Sheets:", data);
-            alert("Koneksi ke Google Sheets Sukses!");
-          })
-          .catch(err => console.error("Error:", err));
       }
     </script>
   </body>
