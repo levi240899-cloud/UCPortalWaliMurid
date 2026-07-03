@@ -2,14 +2,14 @@
   "name": "Portal Wali Murid SITD",
   "short_name": "Portal SITD",
   "description": "Aplikasi Portal Informasi Wali Murid SITD",
-  "start_url": "<?= getAppUrl() ?>",
+  "start_url": "/UCPortalWaliMurid/Index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4285F4",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/levi240899-cloud/UCPortalWaliMurid/main/Portalwalimuridicon.png",
+      "src": "Portalwalimuridicon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
