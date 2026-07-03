@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- PWA Meta Tags & Manifest -->
+<meta name="theme-color" content="#4285F4">
+<link rel="manifest" href="<?= getAppUrl() ?>?page=manifest">
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2991/2991148.png">
     <base target="_top">
     <!-- Memanggil Manifest secara Dinamis -->
     <link rel="manifest" href="<?= getAppUrl() ?>?page=manifest">
@@ -23,6 +27,15 @@
             .catch(err => console.log('Gagal daftar Service Worker:', err));
         });
       }
-    </script>
+    <!-- PWA Service Worker Registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('<?= getAppUrl() ?>?page=sw')
+        .then(reg => console.log('PWA Service Worker sukses terdaftar!', reg.scope))
+        .catch(err => console.error('PWA Service Worker gagal terdaftar:', err));
+    });
+  }
+</script>
   </body>
 </html>
