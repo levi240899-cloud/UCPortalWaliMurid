@@ -16,18 +16,43 @@
     </style>
   </head>
   <body>
-    <h2>Aplikasi PWA Google Apps Script (via GitHub)</h2>
-    <p>Sekarang PWA aktif di GitHub Pages tanpa error!</p>
-    <button class="btn">Halo Dunia</button>
+    <!-- Bagian Tampilan (Body) -->
+<h2>Aplikasi PWA Google Apps Script (via GitHub)</h2>
+<p>Sekarang PWA aktif di GitHub Pages tanpa error!</p>
 
-    <script>
-      if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js') // Menggunakan ./ agar relatif terhadap sub-folder
-      .then(reg => console.log('Service Worker registered', reg))
-      .catch(err => console.error('Service Worker failed', err));
+<!-- Tombol untuk memicu data dari Google Script -->
+<button class="btn" id="btnAmbilData">Ambil Data Wali Murid</button>
+<div id="TargetHasil" style="margin-top: 20px; font-weight: bold;"></div>
+
+<script>
+  // 1. DAFTARKAN SERVICE WORKER (Sudah ada di file Anda)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('Service Worker failed', err));
+    });
+  }
+
+  // 2. TAMBAHKAN FUNGSI UNTUK MENGHUBUNGKAN KE GOOGLE APPS SCRIPT
+  document.getElementById('btnAmbilData').addEventListener('click', function() {
+    const targetDiv = document.getElementById('TargetHasil');
+    targetDiv.innerText = "Sedang mengambil data...";
+
+    // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA (/exec)
+    const GAS_URL = "AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt";
+
+    fetch(GAS_URL)
+      .then(response => response.json())
+      .then(data => {
+        // Anggap data dari GAS berbentuk json contoh: { nama: "Budi", kelas: "4A" }
+        targetDiv.innerHTML = `Nama Wali: ${data.nama} <br> Kelas: ${data.kelas}`;
+      })
+      .catch(error => {
+        console.error("Gagal mengambil data:", error);
+        targetDiv.innerText = "Gagal mengambil data dari Google Script.";
+      });
   });
-}
-    </script>
+</script>
   </body>
 </html>
