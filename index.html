@@ -27,6 +27,25 @@
           .catch(err => console.log('SW Gagal:', err));
       });
     }
+    // Contoh logika saat tombol "Aktifkan Notifikasi" diklik setelah Login
+function daftarkanTokenWaliMurid(usernameAktif) {
+  // 1. Ambil token dari Firebase Messaging
+  messaging.getToken({ vpaidKey: 'KEY_ANDA' }).then((currentToken) => {
+    if (currentToken) {
+      // 2. Kirim token ke Google Apps Script agar disimpan sesuai Username
+      fetch("https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "simpanToken",
+          username: usernameAktif,
+          token: currentToken
+        })
+      })
+      .then(res => res.json())
+      .then(data => console.log("Token berhasil di-link ke username!"));
+    }
+  });
+}
   </script>
 </head>
 <body style="margin: 0; padding: 0; overflow: hidden; background-color: #4a0e17; height: 100vh; width: 100vw;">
