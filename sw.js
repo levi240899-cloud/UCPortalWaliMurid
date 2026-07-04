@@ -1,6 +1,6 @@
 const CACHE_NAME = 'sitd-portal-cache-v1';
 const urlsToCache = [
-  '/UCPortalWaliMurid/Index.html',
+  '/UCPortalWaliMurid/index.html',
   '/UCPortalWaliMurid/manifest.json'
 ];
 
