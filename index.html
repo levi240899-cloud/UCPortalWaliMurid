@@ -47,27 +47,32 @@
     firebase.initializeApp(firebaseConfig);
     const messaging = firebase.messaging();
 
-    // 3. Fungsi Pendaftaran Token
-    function daftarkanTokenWaliMurid(usernameAktif) {
-      // GANTI 'KEY_ANDA' di bawah dengan VAPID KEY dari Firebase Anda!
-      messaging.getToken({ vapidKey: 'BCngnDBQ6GaZX6rY3e6y8O41Wl1OKMfZV59ONwdX_y1yhGPY4YOxFu8shP7GFa6YBvVjE9wnxFFoHlRg8zUz_KY' }).then((currentToken) => {
+    // 3. Pemicu Otomatis saat Halaman Terbuka
+    window.addEventListener('load', () => {
+      // Kita langsung minta izin begitu aplikasi PWA dibuka
+      messaging.getToken({ vapidKey: 'BCngnDBQ6GaZX6rY3e6y8O41Wl1OKMfZV59ONwdX_y1yhGPY4YOxFu8shP7GFa6YBvVjE9wnxFFoHlRg8zUz_KY' })
+      .then((currentToken) => {
         if (currentToken) {
+          console.log("Token FCM didapat:", currentToken);
+          
+          // Karena belum login, kita kirimkan token ini dengan username sementara "pwa_user"
+          // agar tokennya masuk dulu ke Google Sheets Anda!
           fetch("https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec", {
             method: "POST",
             body: JSON.stringify({
               action: "simpanToken",
-              username: usernameAktif,
+              username: "wali1", // Masukkan username yang ingin Anda tes di sini sementara waktu
               token: currentToken
             })
           })
           .then(res => res.json())
-          .then(data => console.log("Token berhasil di-link ke username!"))
+          .then(data => console.log("Token sukses disimpan ke spreadsheet!"))
           .catch(err => console.error("Gagal mengirim token:", err));
         }
       }).catch((err) => {
-        console.error("Gagal mengambil token FCM:", err);
+        console.error("Izin ditolak atau gagal ambil token:", err);
       });
-    }
+    });
   </script>
 </head>
 <body style="margin: 0; padding: 0; overflow: hidden; background-color: #4a0e17; height: 100vh; width: 100vw;">
