@@ -33,7 +33,7 @@
       });
     }
 
-    // 2. Inisialisasi Firebase Config Anda
+    // 2. Inisialisasi Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyAmLDdjabshS3TDnpqpo8s3EcIHzU7cUFY",
       authDomain: "portal-wali-murid-sitd.firebaseapp.com",
@@ -47,21 +47,19 @@
     firebase.initializeApp(firebaseConfig);
     const messaging = firebase.messaging();
 
-    // 3. Pemicu Otomatis saat Halaman Terbuka
+    // 3. Pemicu Otomatis Ambil Token
     window.addEventListener('load', () => {
-      // Kita langsung minta izin begitu aplikasi PWA dibuka
       messaging.getToken({ vapidKey: 'BCngnDBQ6GaZX6rY3e6y8O41Wl1OKMfZV59ONwdX_y1yhGPY4YOxFu8shP7GFa6YBvVjE9wnxFFoHlRg8zUz_KY' })
       .then((currentToken) => {
         if (currentToken) {
           console.log("Token FCM didapat:", currentToken);
           
-          // Karena belum login, kita kirimkan token ini dengan username sementara "pwa_user"
-          // agar tokennya masuk dulu ke Google Sheets Anda!
+          // Mengirimkan token ke akun wali1 terlebih dahulu untuk uji coba
           fetch("https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec", {
             method: "POST",
             body: JSON.stringify({
               action: "simpanToken",
-              username: "wali1", // Masukkan username yang ingin Anda tes di sini sementara waktu
+              username: "wali1", 
               token: currentToken
             })
           })
