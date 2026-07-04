@@ -21,14 +21,13 @@
     <button class="btn">Halo Dunia</button>
 
     <script>
-      // Mendaftarkan Service Worker lokal (sw.js)
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('PWA Aktif di GitHub Pages!', reg.scope))
-            .catch(err => console.error('Gagal daftar SW:', err));
-        });
-      }
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js') // Menggunakan ./ agar relatif terhadap sub-folder
+      .then(reg => console.log('Service Worker registered', reg))
+      .catch(err => console.error('Service Worker failed', err));
+  });
+}
     </script>
   </body>
 </html>
