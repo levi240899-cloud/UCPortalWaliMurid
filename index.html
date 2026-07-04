@@ -1,58 +1,40 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#4285F4">
-    <title>Aplikasi Wali Murid SITD</title>
-    
-    <!-- Memanggil manifest lokal di GitHub -->
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="Portalwalimuridicon.png">
-    
-    <style>
-      body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-      .btn { padding: 10px 20px; background: #4285F4; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    </style>
-  </head>
-  <body>
-    <!-- Bagian Tampilan (Body) -->
-<h2>Aplikasi PWA Google Apps Script (via GitHub)</h2>
-<p>Sekarang PWA aktif di GitHub Pages tanpa error!</p>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Porta SITD</title>
+  
+  <meta name="theme-color" content="#800000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="SITD Darussunnah">
+  <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/19Dd5Oly9QCqqenDQBRx2U2LRdNn_o4qe">
+  
+  <link rel="manifest" href="manifest.json">
 
-<!-- Tombol untuk memicu data dari Google Script -->
-<button class="btn" id="btnAmbilData">Ambil Data Wali Murid</button>
-<div id="TargetHasil" style="margin-top: 20px; font-weight: bold;"></div>
-
-<script>
-  // 1. DAFTARKAN SERVICE WORKER (Sudah ada di file Anda)
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker registered', reg))
-        .catch(err => console.error('Service Worker failed', err));
-    });
-  }
-
-  // 2. TAMBAHKAN FUNGSI UNTUK MENGHUBUNGKAN KE GOOGLE APPS SCRIPT
-  document.getElementById('btnAmbilData').addEventListener('click', function() {
-    const targetDiv = document.getElementById('TargetHasil');
-    targetDiv.innerText = "Sedang mengambil data...";
-
-    // GANTI URL DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA (/exec)
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec";
-
-    fetch(GAS_URL)
-      .then(response => response.json())
-      .then(data => {
-        // Anggap data dari GAS berbentuk json contoh: { nama: "Budi", kelas: "4A" }
-        targetDiv.innerHTML = `Nama Wali: ${data.nama} <br> Kelas: ${data.kelas}`;
-      })
-      .catch(error => {
-        console.error("Gagal mengambil data:", error);
-        targetDiv.innerText = "Gagal mengambil data dari Google Script.";
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swCode = `
+          self.addEventListener('install', e => self.skipWaiting());
+          self.addEventListener('fetch', e => e.respondWith(fetch(e.request)));
+        `;
+        const blob = new Blob([swCode], {type: 'application/javascript'});
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl)
+          .then(reg => console.log('Service Worker aktif!'))
+          .catch(err => console.log('SW Gagal:', err));
       });
-  });
-</script>
-  </body>
+    }
+  </script>
+</head>
+<body style="margin: 0; padding: 0; overflow: hidden; background-color: #4a0e17; height: 100vh; width: 100vw;">
+
+  <iframe 
+    src="https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec" 
+    style="width: 100%; height: 100%; border: none; margin: 0; padding: 0; display: block;">
+  </iframe>
+
+</body>
 </html>
