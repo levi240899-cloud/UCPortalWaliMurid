@@ -54,15 +54,14 @@
         if (currentToken) {
           console.log("Token FCM didapat:", currentToken);
           
-          // Mengirimkan token ke akun wali1 terlebih dahulu untuk uji coba
           fetch("https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec", {
-            method: "POST",
-            body: JSON.stringify({
-              action: "simpanToken",
-              username: "wali1", 
-              token: currentToken
-            })
-          })
+  method: "POST",
+  body: JSON.stringify({
+    action: "simpanToken",
+    username: "wali1", 
+    token: currentToken
+  })
+})
           .then(res => res.json())
           .then(data => console.log("Token sukses disimpan ke spreadsheet!"))
           .catch(err => console.error("Gagal mengirim token:", err));
