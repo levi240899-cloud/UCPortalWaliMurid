@@ -13,7 +13,12 @@
   
   <link rel="manifest" href="manifest.json">
 
+  <!-- Panggil Firebase SDK versi Browser CDN (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging-compat.js"></script>
+
   <script>
+    // 1. Pendaftaran Service Worker bawaan
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         const swCode = `
@@ -28,12 +33,25 @@
       });
     }
 
-    // Fungsi pendaftaran token (Sudah diperbaiki penutupnya)
+    // 2. Inisialisasi Firebase Config Anda
+    const firebaseConfig = {
+      apiKey: "AIzaSyAmLDdjabshS3TDnpqpo8s3EcIHzU7cUFY",
+      authDomain: "portal-wali-murid-sitd.firebaseapp.com",
+      projectId: "portal-wali-murid-sitd",
+      storageBucket: "portal-wali-murid-sitd.firebasestorage.app",
+      messagingSenderId: "1064221825802",
+      appId: "1:1064221825802:web:5e55cf811ff03b145878f3",
+      measurementId: "G-P0M532JNQL"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    // 3. Fungsi Pendaftaran Token
     function daftarkanTokenWaliMurid(usernameAktif) {
-      // 1. Ambil token dari Firebase Messaging
-      messaging.getToken({ vpaidKey: 'KEY_ANDA' }).then((currentToken) => {
+      // GANTI 'KEY_ANDA' di bawah dengan VAPID KEY dari Firebase Anda!
+      messaging.getToken({ vapidKey: 'BCngnDBQ6GaZX6rY3e6y8O41Wl1OKMfZV59ONwdX_y1yhGPY4YOxFu8shP7GFa6YBvVjE9wnxFFoHlRg8zUz_KY' }).then((currentToken) => {
         if (currentToken) {
-          // 2. Kirim token ke Google Apps Script agar disimpan sesuai Username
           fetch("https://script.google.com/macros/s/AKfycbxEqgKv7zAn6PdKiT9f8cgi9voaxtkpSCcELQQrtYlY3KlgOjSv-2noGK_3DjRySCwt/exec", {
             method: "POST",
             body: JSON.stringify({
@@ -46,6 +64,8 @@
           .then(data => console.log("Token berhasil di-link ke username!"))
           .catch(err => console.error("Gagal mengirim token:", err));
         }
+      }).catch((err) => {
+        console.error("Gagal mengambil token FCM:", err);
       });
     }
   </script>
